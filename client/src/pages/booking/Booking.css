@@ -1,0 +1,90 @@
+.booking-container {
+    font-family: 'Arial', sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+}
+
+.booking-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.room-info {
+    margin-bottom: 30px;
+}
+
+.room-info p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.booking-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.input-container {
+    margin-bottom: 15px;
+}
+
+.input-label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.required {
+    color: red;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.input-field:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+.form-error {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.booking-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #007BFF;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.booking-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.booking-button:hover:enabled {
+    background-color: #0056b3;
+}
