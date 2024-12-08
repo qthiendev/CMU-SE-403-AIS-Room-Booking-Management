@@ -7,6 +7,7 @@ import Layout from './Layout.jsx';
 // Import page here
 import Home from './pages/Home.jsx';
 import Login from './pages/authen/Login.jsx';
+import Register from './pages/authen/Register.jsx';
 
 const Router = () => {
     return (
@@ -18,6 +19,7 @@ const Router = () => {
                 <Route path="/home" element={<Home />} /> 
 
                 <Route path="/authen/login" element={<Login />} /> 
+                <Route path="/authen/register" element={<Register />} /> 
             </Route>
         </Routes>
     );
