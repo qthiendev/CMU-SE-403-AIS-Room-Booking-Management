@@ -8,6 +8,8 @@ import Layout from './Layout.jsx';
 import Home from './pages/Home.jsx';
 import Login from './pages/authen/Login.jsx';
 import Register from './pages/authen/Register.jsx';
+import RoomInfo from './pages/room/RoomInfo.jsx';
+import SearchRoom from './pages/room/SearchRoom.jsx';
 
 const Router = () => {
     return (
@@ -20,6 +22,9 @@ const Router = () => {
 
                 <Route path="/authen/login" element={<Login />} /> 
                 <Route path="/authen/register" element={<Register />} /> 
+
+                <Route path=":hotel_alias/:room_id" element={<RoomInfo />} /> 
+                <Route path="search/room" element={<SearchRoom />} /> 
             </Route>
         </Routes>
     );
