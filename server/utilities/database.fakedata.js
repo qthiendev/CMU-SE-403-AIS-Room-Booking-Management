@@ -5,7 +5,7 @@ dotenv.config();
 
 const salt = process.env.ENCRYPT_SALT;
 
-const dbPath = path.join(__dirname, '../database/rbdb.sqlite3');
+const dbPath = path.join(__dirname, '../database/rbdb-v1.sqlite3');
 const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
         console.error('Error opening database', err);
