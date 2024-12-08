@@ -3,7 +3,7 @@ const path = require('path');
 
 class DatabaseService {
     constructor() {
-        this.dbPath = path.join(__dirname, '../database/rbdb.sqlite3');
+        this.dbPath = path.join(__dirname, '../database/rbdb-v1.sqlite3');
     }
 
     _connect() {

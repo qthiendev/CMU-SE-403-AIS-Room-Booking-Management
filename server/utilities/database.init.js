@@ -2,7 +2,7 @@ const sqlite3 = require('sqlite3').verbose();
 const fs = require('fs');
 const path = require('path');
 
-const dbPath = path.join(__dirname, '../database/rbdb.sqlite3');
+const dbPath = path.join(__dirname, '../database/rbdb-v1.sqlite3');
 
 // Function to delete the existing database file if it exists
 const deleteDatabase = () => {
