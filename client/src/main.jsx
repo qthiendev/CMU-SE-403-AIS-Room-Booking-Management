@@ -10,6 +10,8 @@ import Login from './pages/authen/Login.jsx';
 import Register from './pages/authen/Register.jsx';
 import RoomInfo from './pages/room/RoomInfo.jsx';
 import SearchRoom from './pages/room/SearchRoom.jsx';
+import Booking from './pages/booking/Booking.jsx';
+import CheckBooking from './pages/booking/CheckBooking.jsx';
 
 const Router = () => {
     return (
@@ -24,7 +26,10 @@ const Router = () => {
                 <Route path="/authen/register" element={<Register />} /> 
 
                 <Route path=":hotel_alias/:room_id" element={<RoomInfo />} /> 
-                <Route path="search/room" element={<SearchRoom />} /> 
+                <Route path="search/room" element={<SearchRoom />} />
+
+                <Route path="booking/create/:hotel_alias/:room_id" element={<Booking />} />
+                <Route path="booking/check/:transaction_id" element={<CheckBooking />} />
             </Route>
         </Routes>
     );

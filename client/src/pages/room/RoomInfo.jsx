@@ -37,6 +37,10 @@ const RoomInfo = () => {
         fetchRoom();
     }, [room_id, hotel_alias, navigate]);
 
+    const handleBookNow = () => {
+        navigate(`/booking/create/${hotel_alias}/${room_id}`);
+    };
+
     if (loading) {
         return <p>Loading...</p>;
     }
@@ -63,6 +67,11 @@ const RoomInfo = () => {
             <p><strong>Address:</strong> {room.hotel_address}</p>
             <p><strong>Phone:</strong> {room.hotel_phone}</p>
             <p><strong>Email:</strong> <a href={`mailto:${room.hotel_email}`}>{room.hotel_email}</a></p>
+
+            {/* Book Now Button */}
+            <button className="book-now-button" onClick={handleBookNow}>
+                Book Now
+            </button>
         </div>
     );
 };

@@ -4,26 +4,24 @@ const path = require('path');
 
 const dbPath = path.join(__dirname, '../database/rbdb-v1.sqlite3');
 
-// Function to delete the existing database file if it exists
 const deleteDatabase = () => {
     try {
-        fs.unlinkSync(dbPath); // Delete the file synchronously
+        fs.unlinkSync(dbPath);
         console.log('Database file deleted');
     } catch (err) {
-        if (err.code === 'ENOENT') {
-            console.log('No existing database file found');
-        } else {
+        if (err.code !== 'ENOENT') {
             console.error('Error deleting database file:', err);
         }
     }
 };
 
-// Queries for creating tables
 const createTablesQueries = [
-    `CREATE TABLE authorizations (
+    `PRAGMA foreign_keys = ON;
+    CREATE TABLE authorizations (
         authorization_id INTEGER PRIMARY KEY AUTOINCREMENT,
         role NVARCHAR(255) UNIQUE NOT NULL
     )`,
+    
     `CREATE TABLE authentications (
         authentication_id INTEGER PRIMARY KEY AUTOINCREMENT,
         account BLOB UNIQUE NOT NULL,
@@ -33,8 +31,9 @@ const createTablesQueries = [
         delete_flag INTEGER NOT NULL DEFAULT 0,
         updated_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         authorization_id INTEGER NOT NULL,
-        FOREIGN KEY (authorization_id) REFERENCES authorizations(authorization_id)
+        FOREIGN KEY (authorization_id) REFERENCES authorizations(authorization_id) ON DELETE RESTRICT ON UPDATE RESTRICT
     )`,
+    
     `CREATE TABLE users (
         user_id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_full_name NVARCHAR(255) NOT NULL,
@@ -46,8 +45,9 @@ const createTablesQueries = [
         delete_flag INTEGER NOT NULL DEFAULT 0,
         updated_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         authentication_id INTEGER NOT NULL,
-        FOREIGN KEY (authentication_id) REFERENCES authentications(authentication_id)
+        FOREIGN KEY (authentication_id) REFERENCES authentications(authentication_id) ON DELETE RESTRICT ON UPDATE RESTRICT
     )`,
+    
     `CREATE TABLE hotels (
         hotel_id INTEGER PRIMARY KEY AUTOINCREMENT,
         hotel_name NVARCHAR(255) NOT NULL,
@@ -60,8 +60,9 @@ const createTablesQueries = [
         delete_flag INTEGER NOT NULL DEFAULT 0,
         updated_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         user_id INTEGER NOT NULL,
-        FOREIGN KEY (user_id) REFERENCES users(user_id)
+        FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE RESTRICT ON UPDATE RESTRICT
     )`,
+    
     `CREATE TABLE rooms (
         room_id INTEGER PRIMARY KEY AUTOINCREMENT,
         name NVARCHAR(255) NOT NULL,
@@ -72,11 +73,14 @@ const createTablesQueries = [
         delete_flag INTEGER NOT NULL DEFAULT 0,
         updated_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         hotel_id INTEGER NOT NULL,
-        FOREIGN KEY (hotel_id) REFERENCES hotels(hotel_id)
+        FOREIGN KEY (hotel_id) REFERENCES hotels(hotel_id) ON DELETE RESTRICT ON UPDATE RESTRICT
     )`,
+    
     `CREATE TABLE invoices (
         invoice_id INTEGER PRIMARY KEY AUTOINCREMENT,
         detail NVARCHAR(500) NOT NULL,
+        customer_email NVARCHAR(500),
+        customer_phone NVARCHAR(20) NOT NULL,
         check_in_date DATETIME NOT NULL,
         check_out_date DATETIME NOT NULL,
         pay_amount DECIMAL(10, 2) NOT NULL,
@@ -86,13 +90,12 @@ const createTablesQueries = [
         delete_flag INTEGER NOT NULL DEFAULT 0,
         updated_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         room_id INTEGER NOT NULL,
-        FOREIGN KEY (room_id) REFERENCES rooms(room_id)
+        FOREIGN KEY (room_id) REFERENCES rooms(room_id) ON DELETE RESTRICT ON UPDATE RESTRICT
     )`
 ];
 
 const initDb = () => {
     db.serialize(() => {
-        // Create tables one by one
         createTablesQueries.forEach((query, index) => {
             db.run(query, (err) => {
                 if (err) {
@@ -103,32 +106,25 @@ const initDb = () => {
             });
         });
 
-        // After running the queries, check which tables exist
         db.each("SELECT name FROM sqlite_master WHERE type='table' AND name IN ('authorizations', 'authentications', 'users', 'hotels', 'rooms', 'invoices');", (err, row) => {
             if (err) {
                 console.error('Error fetching specific tables:', err);
             } else {
-                console.log('Table exists:', row.name); // Log specific table names
+                console.log('Table exists:', row.name);
             }
         });
     });
 };
 
-// Delete the old database before opening it
 deleteDatabase();
 
-// Open the database, initialize tables, and then close the connection
 const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
         console.error('Error opening database', err);
         return;
     }
     console.log('Database file created successfully');
-    
-    // Initialize the database tables
     initDb();
-    
-    // Close the database after everything is done
     db.close((err) => {
         if (err) {
             console.error('Error closing database', err);

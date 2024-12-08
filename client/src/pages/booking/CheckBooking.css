@@ -1,0 +1,56 @@
+.booking-details {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #4CAF50;
+}
+
+.booking-details p {
+    font-size: 1rem;
+    margin: 10px 0;
+    color: #333;
+}
+
+.booking-details strong {
+    color: #4CAF50;
+}
+
+.loading {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #ff9800;
+}
+
+.error {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #f44336;
+}
+
+.hotel-info {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid #ddd;
+}
+
+.hotel-info p {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.booking-details p {
+    line-height: 1.6;
+}
+
+.booking-details p strong {
+    color: #4CAF50;
+}

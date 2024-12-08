@@ -133,11 +133,12 @@ async function insertRooms() {
 }
 
 async function insertInvoices() {
-    const insertQuery = `INSERT INTO invoices (detail, check_in_date, check_out_date, pay_amount, full_payment, transaction_id, room_id) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    const insertQuery = `INSERT INTO invoices (detail, customer_email, customer_phone, check_in_date, check_out_date, pay_amount, full_payment, transaction_id, room_id) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     const invoicesData = [
-        ['Room 101 booking', '2024-12-10 14:00:00', '2024-12-15 11:00:00', 750.00, 1, 'TX12345', 1],
-        ['Room 102 booking', '2024-12-12 14:00:00', '2024-12-16 11:00:00', 1000.00, 1, 'TX12346', 2]
+        ['Room 101 booking', 'email@gmail.com', '0395075100', '2024-12-10 14:00:00', '2024-12-15 11:00:00', 750.00, 1, 'TX12345', 1],
+        ['Room 102 booking', 'email@gmail.com', '0395075100', '2024-12-12 14:00:00', '2024-12-16 11:00:00', 1000.00, 1, 'TX12346', 2]
     ];
 
     for (const invoice of invoicesData) {
