@@ -1,48 +1,46 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
-const bcrypt = require('bcrypt'); // Import bcrypt for password hashing and comparison
 
-const dbPath = path.join(__dirname, '../database/rbdb.sqlite3');
-const db = new sqlite3.Database(dbPath, (err) => {
-    if (err) {
-        console.error('Error opening database:', err);
-    } else {
-        console.log('Database opened successfully');
+class DatabaseService {
+    constructor() {
+        this.dbPath = path.join(__dirname, '../database/rbdb.sqlite3');
     }
-});
 
-// Helper function to query the database
-const query = (queryString) => {
-    return new Promise((resolve, reject) => {
-        db.all(queryString, [], (err, rows) => {
+    _connect() {
+        return new sqlite3.Database(this.dbPath, (err) => {
             if (err) {
-                reject(err);
-            } else {
-                resolve(rows);
+                console.error('Error opening database:', err);
             }
         });
-    });
-};
+    }
 
-const login = async (account, password) => {
-    return new Promise((resolve, reject) => {
-        db.get('SELECT * FROM authentications WHERE account = ?', [Buffer.from(account).toString('base64')], async (err, row) => {
-            if (err) {
-                reject(`Error retrieving account: ${err.message}`);
-            } else {
-                if (row) {
-                    const isPasswordValid = await bcrypt.compare(password, row.password);
-                    if (isPasswordValid) {
-                        resolve({ message: 'Login successful', user: row });
-                    } else {
-                        reject('Invalid password');
-                    }
+    query(sql, params = []) {
+        return new Promise((resolve, reject) => {
+            const db = this._connect();
+            db.all(sql, params, (err, rows) => {
+                db.close();
+                if (err) {
+                    reject(`Error executing query: ${err.message}`);
                 } else {
-                    reject('Account not found');
+                    resolve(rows);
                 }
-            }
+            });
         });
-    });
+    }
+
+    get(sql, params = []) {
+        return new Promise((resolve, reject) => {
+            const db = this._connect();
+            db.get(sql, params, (err, row) => {
+                db.close();
+                if (err) {
+                    reject(`Error executing query: ${err.message}`);
+                } else {
+                    resolve(row);
+                }
+            });
+        });
+    }
 }
 
-module.exports = { query, login };
+module.exports = new DatabaseService();

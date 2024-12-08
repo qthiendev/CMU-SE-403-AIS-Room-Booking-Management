@@ -2,9 +2,11 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const cors = require('cors');
+const dotenv = require('dotenv');
 const mainRouter = require('./routes/main.route');
-const path = require('path');
 const now = new Date();
+
+dotenv.config();
 
 const app = express();
 const PORT = 5000;
@@ -18,7 +20,7 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 
 app.use(session({
-    secret: 'Secret',
+    secret: process.env.SESSION_SECRET_KEY,
     resave: false,
     saveUninitialized: true,
     cookie: {
