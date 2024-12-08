@@ -1,6 +1,9 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
-const bcrypt = require('bcrypt');
+const dotenv = require('dotenv');
+dotenv.config();
+
+const salt = process.env.ENCRYPT_SALT;
 
 const dbPath = path.join(__dirname, '../database/rbdb.sqlite3');
 const db = new sqlite3.Database(dbPath, (err) => {
@@ -11,11 +14,6 @@ const db = new sqlite3.Database(dbPath, (err) => {
     console.log('Database opened successfully');
 });
 
-async function hashPassword(password) {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    return hashedPassword;
-}
 
 async function checkAndInsert(query, params, tableName, uniqueField) {
     return new Promise((resolve, reject) => {
@@ -54,7 +52,7 @@ async function insertAuthorizations() {
     }
 }
 
-async function insertAuthentications() {
+const insertAuthentications = async () => {
     const insertQuery = `INSERT INTO authentications (account, password, authorization_id) VALUES (?, ?, ?)`;
     const accountData = [
         { account: 'admin', password: 'admin123', role_id: 1 },
@@ -69,14 +67,15 @@ async function insertAuthentications() {
 
     for (const { account, password, role_id } of accountData) {
         try {
-            const encodedAccount = Buffer.from(account).toString('base64');
-            const encodedPassword = await hashPassword(password);
+            const encodedAccount = Buffer.from(account + salt).toString('base64');
+            const encodedPassword = Buffer.from(password + salt).toString('base64');
+            
             await checkAndInsert(insertQuery, [encodedAccount, encodedPassword, role_id], 'authentications', 'account');
         } catch (error) {
             console.error(error);
         }
     }
-}
+};
 
 async function insertUsers() {
     const insertQuery = `INSERT INTO users (user_full_name, user_alias, user_address, user_phone, user_email, authentication_id) VALUES (?, ?, ?, ?, ?, ?)`;

@@ -5,6 +5,8 @@ import './main.css';
 import Layout from './Layout.jsx';
 
 // Import page here
+import Home from './pages/Home.jsx';
+import Login from './pages/authen/Login.jsx';
 
 const Router = () => {
     return (
@@ -12,7 +14,10 @@ const Router = () => {
             <Route path="/" element={<Layout />}>
 
                 {/* Import page with route here */}
+                <Route path="/" element={<Home />} /> 
+                <Route path="/home" element={<Home />} /> 
 
+                <Route path="/authen/login" element={<Login />} /> 
             </Route>
         </Routes>
     );
