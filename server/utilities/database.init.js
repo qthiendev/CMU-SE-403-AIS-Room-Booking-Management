@@ -28,6 +28,7 @@ const createTablesQueries = [
         authentication_id INTEGER PRIMARY KEY AUTOINCREMENT,
         account BLOB UNIQUE NOT NULL,
         password BLOB NOT NULL,
+        identifer_email BLOB UNIQUE NOT NULL,
         created_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         delete_flag INTEGER NOT NULL DEFAULT 0,
         updated_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

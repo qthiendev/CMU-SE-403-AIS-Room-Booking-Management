@@ -41,6 +41,24 @@ class DatabaseService {
             });
         });
     }
+
+    run(sql, params = []) {
+        return new Promise((resolve, reject) => {
+            const db = this._connect();
+            db.run(sql, params, function (err) {
+                db.close();
+                if (err) {
+                    reject(`Error executing query: ${err.message}`);
+                } else {
+                    if (this.changes > 0) {
+                        resolve({ success: true, message: 'Operation successful', changes: this.changes });
+                    } else {
+                        resolve({ success: false, message: 'No rows affected' });
+                    }
+                }
+            });
+        });
+    }
 }
 
 module.exports = new DatabaseService();

@@ -53,24 +53,25 @@ async function insertAuthorizations() {
 }
 
 const insertAuthentications = async () => {
-    const insertQuery = `INSERT INTO authentications (account, password, authorization_id) VALUES (?, ?, ?)`;
+    const insertQuery = `INSERT INTO authentications (account, password, identifer_email, authorization_id) VALUES (?, ?, ?, ?)`;
     const accountData = [
-        { account: 'admin', password: 'admin123', role_id: 1 },
-        { account: 'user1', password: 'user123', role_id: 2 },
-        { account: 'manager1', password: 'manager123', role_id: 2 },
-        { account: 'guest1', password: 'guest123', role_id: 2 },
-        { account: 'johndoe', password: 'john123', role_id: 2 },
-        { account: 'janesmith', password: 'jane123', role_id: 2 },
-        { account: 'bobmarley', password: 'bob123', role_id: 2 },
-        { account: 'alicewong', password: 'alice123', role_id: 2 }
+        { account: 'admin', password: 'admin123', indentifer_email: 'admin123@gmail.com', role_id: 1 },
+        { account: 'user1', password: 'user123', indentifer_email: 'user123@gmail.com', role_id: 2 },
+        { account: 'manager1', password: 'manager123', indentifer_email: 'manager123@gmail.com', role_id: 2 },
+        { account: 'guest1', password: 'guest123', indentifer_email: 'guest123@gmail.com', role_id: 2 },
+        { account: 'johndoe', password: 'john123', indentifer_email: 'john123@gmail.com', role_id: 2 },
+        { account: 'janesmith', password: 'jane123', indentifer_email: 'jane123@gmail.com', role_id: 2 },
+        { account: 'bobmarley', password: 'bob123', indentifer_email: 'bob123@gmail.com', role_id: 2 },
+        { account: 'alicewong', password: 'alice123', indentifer_email: 'alice123@gmail.com', role_id: 2 }
     ];
 
-    for (const { account, password, role_id } of accountData) {
+    for (const { account, password, indentifer_email, role_id } of accountData) {
         try {
             const encodedAccount = Buffer.from(account + salt).toString('base64');
             const encodedPassword = Buffer.from(password + salt).toString('base64');
-            
-            await checkAndInsert(insertQuery, [encodedAccount, encodedPassword, role_id], 'authentications', 'account');
+            const encodedEmail = Buffer.from(indentifer_email + salt).toString('base64');
+
+            await checkAndInsert(insertQuery, [encodedAccount, encodedPassword, encodedEmail, role_id], 'authentications', 'account');
         } catch (error) {
             console.error(error);
         }
