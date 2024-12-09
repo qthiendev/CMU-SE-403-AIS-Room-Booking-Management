@@ -72,11 +72,17 @@ const SearchRoom = () => {
             </div>
             <div className="room-card-container">
                 {rooms.map((room) => (
+                    console.log(room),
                     <div
                         key={room.room_id}
                         className="room-card"
                         onClick={() => handleCardClick(room.hotel_alias, room.room_id)}
                     >
+                        <img
+                            src={'https://i.pinimg.com/736x/81/26/33/812633ac38fa71c80484d99119060333.jpg' || 'https://via.placeholder.com/150'}
+                            alt={room.name}
+                            className="room-image"
+                        />
                         <h3>{room.name}</h3>
                         <p><strong>Hotel:</strong> {room.hotel_name}</p>
                         <p><strong>Address:</strong> {room.hotel_address}</p>
