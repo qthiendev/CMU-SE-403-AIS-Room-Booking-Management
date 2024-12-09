@@ -1,14 +1,127 @@
+/* Container for the entire page */
+.room-info-container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Heading Styles */
+.room-info-container h2 {
+    font-size: 2.2em;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.room-info-container h3 {
+    font-size: 1.7em;
+    color: #333;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* Room and Hotel Information - Style for paragraphs */
+.room-info-container p {
+    font-size: 1.1em;
+    color: #555;
+    margin: 12px 0;
+    line-height: 1.6;
+}
+
+.room-info-container strong {
+    color: #007bff;
+}
+
+/* Info sections for better organization */
+.room-info-container .info-section {
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+/* Book Now Button */
 .book-now-button {
-    padding: 10px 20px;
-    background-color: #007BFF;
+    padding: 12px 24px;
+    background-color: #ff6f61; /* Soft red/pink pastel color */
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
     cursor: pointer;
-    font-size: 16px;
-    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 100%;
+    max-width: 220px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 10px rgba(255, 111, 97, 0.2);
+    text-align: center;
+    margin-top: 30px;
 }
 
 .book-now-button:hover {
-    background-color: #0056b3;
+    background-color: #ff5733;
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(255, 87, 51, 0.3);
+}
+
+/* Flexbox for room and hotel info sections */
+.room-info-container .room-details, 
+.room-info-container .hotel-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.room-info-container .room-details > div,
+.room-info-container .hotel-details > div {
+    flex: 1;
+    min-width: 280px;
+}
+
+/* Styling the image of the room (if any) */
+.room-info-container .room-image {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design: Adjust layout for smaller screens */
+@media (max-width: 768px) {
+    .room-info-container {
+        padding: 20px;
+    }
+
+    .room-info-container h2 {
+        font-size: 1.8em;
+    }
+
+    .room-info-container h3 {
+        font-size: 1.4em;
+    }
+
+    .room-info-container p {
+        font-size: 1em;
+    }
+
+    .book-now-button {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+    .room-info-container .room-details, 
+    .room-info-container .hotel-details {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }

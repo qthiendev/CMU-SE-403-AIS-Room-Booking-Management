@@ -1,83 +1,116 @@
+/* Container chính cho phần tìm kiếm */
 .search-container {
     width: 100%;
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
+    max-width: 1300px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #faeee7; /* Màu nền pastel nhẹ */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Thanh tìm kiếm */
 .search-bar {
     display: flex;
-    gap: 10px;
+    gap: 15px;
     width: 100%;
-    max-width: 600px;
-    margin-bottom: 20px;
+    max-width: 700px;
+    margin-bottom: 30px;
+    align-items: center;
 }
 
+/* Input tìm kiếm */
 .search-input {
     flex: 1;
-    padding: 10px;
+    padding: 15px;
     font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 2px solid #d0d0d0; /* Màu border pastel nhẹ */
+    border-radius: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff; /* Nền trắng để dễ nhìn */
 }
 
 .search-input:focus {
     outline: none;
-    border-color: #007BFF;
+    border-color: #a8c4d8; /* Màu pastel xanh khi focus */
+    box-shadow: 0 0 8px rgba(168, 196, 216, 0.5);
 }
 
+/* Nút tìm kiếm */
 .search-button {
-    padding: 10px 15px;
+    padding: 12px 18px;
     font-size: 16px;
     color: #fff;
-    background-color: #007BFF;
+    background-color: #d9d4e7; /* Màu vàng pastel */
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 12px rgba(244, 163, 0, 0.2);
 }
 
 .search-button:hover {
-    background-color: #0056b3;
+    background-color: #e09000; /* Màu vàng đậm hơn khi hover */
+    transform: scale(1.05);
 }
 
+/* Hiển thị các thẻ phòng */
 .room-card-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 30px;
     justify-content: center;
+    background-color: #fec7d7; 
 }
 
+/* Thẻ phòng */
 .room-card {
-    width: 280px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #faeee7; 
 }
 
 .room-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
+/* Hình ảnh phòng */
+.room-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+/* Tiêu đề phòng */
 .room-card h3 {
-    margin: 0 0 10px;
-    font-size: 1.2em;
-    color: #333;
+    margin: 0 0 12px;
+    font-size: 1.3em;
+    color: #505050; /* Màu xám nhạt */
+    font-weight: 600;
 }
 
+/* Thông tin phòng */
 .room-card p {
     margin: 5px 0;
     font-size: 0.9em;
-    color: #555;
+    color: #777; /* Màu xám nhạt cho các thông tin */
+}
+
+/* Giá phòng */
+.room-card .price {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #b98b56; /* Màu pastel vàng đất */
+    margin-top: 10px;
 }
