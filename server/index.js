@@ -3,7 +3,12 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const helmet = require('helmet');
 const mainRouter = require('./routes/main.route');
+const xss = require('xss-clean');
+const rateLimit = require('express-rate-limit');
+const hpp = require('hpp');
+const compression = require('compression');
 const now = new Date();
 
 dotenv.config();
@@ -16,7 +21,29 @@ const corsOptions = {
     credentials: true,
 };
 
+const helmetOptions = {
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "http://localhost:5173"],
+        },
+    },
+};
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+    message: 'Too many requests from this IP, please try again after 15 minutes'
+});
+
+app.use(limiter); // Apply rate limiting to all requests
+
+app.use(helmet(helmetOptions));
 app.use(cors(corsOptions));
+app.use(xss()); // Add xss-clean middleware
+app.use(hpp()); // Add hpp middleware
+app.use(compression()); // Add compression middleware
+
 app.use(cookieParser());
 
 app.use(session({
