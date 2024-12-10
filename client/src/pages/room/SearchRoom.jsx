@@ -72,14 +72,25 @@ const SearchRoom = () => {
             </div>
             <div className="room-card-container">
                 {rooms.map((room) => (
-                    console.log(room),
                     <div
                         key={room.room_id}
                         className="room-card"
                         onClick={() => handleCardClick(room.hotel_alias, room.room_id)}
                     >
                         <img
-                            src={'https://i.pinimg.com/736x/81/26/33/812633ac38fa71c80484d99119060333.jpg' || 'https://via.placeholder.com/150'}
+                            src={
+                                room.hotel_name === "Hotel California"
+                                    ? "https://i.pinimg.com/736x/e3/93/9a/e3939a042d1e3afc289b865e829e6038.jpg"
+                                    : room.hotel_name === "The Grand Plaza"
+                                    ? "https://i.pinimg.com/736x/b0/1d/24/b01d24bc43b8a0a059475f7ab213721f.jpg"
+                                    : room.hotel_name === "Oceanview Resort"
+                                    ? "https://i.pinimg.com/736x/71/86/13/7186137ffa71a3184b8b348429958073.jpg"
+                                    : room.hotel_name === "Mountain Retreat"
+                                    ? "https://i.pinimg.com/736x/71/86/13/7186137ffa71a3184b8b348429958073.jpg"
+                                    : room.hotel_name === "Cityscape Suites"
+                                    ? "https://i.pinimg.com/736x/c9/ee/8f/c9ee8ffcefe649de6df818e13fafe3ca.jpg"
+                                    : "https://via.placeholder.com/150"
+                            }
                             alt={room.name}
                             className="room-image"
                         />
