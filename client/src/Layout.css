@@ -26,6 +26,10 @@ header .nav_bar {
   gap: 20px;
   margin: 0;
   padding: 0;
+  justify-content: center;
+  background-color: #007bff;
+  padding: 10px 0;
+  margin: 0;
 }
 
 header .nav_bar li {

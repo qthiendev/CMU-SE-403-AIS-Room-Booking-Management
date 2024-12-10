@@ -26,6 +26,7 @@ function Layout() {
           >
             Search
           </li>
+          <li onClick={() => navigate("/admin")}>Admin</li>
         </ul>
       </header>
 
