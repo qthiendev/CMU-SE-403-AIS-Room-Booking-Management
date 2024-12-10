@@ -69,6 +69,7 @@ const createTablesQueries = [
         description NVARCHAR(500) NOT NULL,
         price DECIMAL(10, 2) NOT NULL,
         available_flag INTEGER NOT NULL DEFAULT 1,
+        image_url TEXT,  -- Thêm cột image_url
         created_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         delete_flag INTEGER NOT NULL DEFAULT 0,
         updated_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

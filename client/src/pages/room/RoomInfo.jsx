@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import './Roominfo.css';
 
 const RoomInfo = () => {
     const { hotel_alias, room_id } = useParams();

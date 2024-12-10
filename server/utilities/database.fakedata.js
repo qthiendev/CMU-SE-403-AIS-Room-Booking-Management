@@ -17,6 +17,17 @@ const db = new sqlite3.Database(dbPath, (err) => {
 
 async function checkAndInsert(query, params, tableName, uniqueField) {
     return new Promise((resolve, reject) => {
+        if (!uniqueField) {
+            db.run(query, params, function (err) {
+                if (err) {
+                    reject(`Error inserting data into ${tableName}: ${err.message}`);
+                } else {
+                    console.log(`Data inserted into ${tableName} with ID ${this.lastID}`);
+                    resolve();
+                }
+            });
+            return;
+        }
         db.get(`SELECT * FROM ${tableName} WHERE ${uniqueField} = ?`, [params[0]], (err, row) => {
             if (err) {
                 reject(`Error checking existing data in ${tableName}: ${err.message}`);
@@ -102,7 +113,15 @@ async function insertHotels() {
 
     const hotelsData = [
         ['Hotel California', 'hotelcalifornia', 'A beautiful hotel in the city.', '789 Sunset Blvd', '111-222-3333', 'contact@hotelcalifornia.com', 1],
-        ['The Grand Plaza', 'grandplaza', 'Luxury hotel with top-notch amenities.', '123 Luxury St', '444-555-6666', 'info@grandplaza.com', 2]
+        ['The Grand Plaza', 'grandplaza', 'Luxury hotel with top-notch amenities.', '123 Luxury St', '444-555-6666', 'info@grandplaza.com', 2],
+        ['Oceanview Resort', 'oceanviewresort', 'A serene beachfront resort.', '45 Ocean Ave', '222-333-4444', 'contact@oceanviewresort.com', 3],
+        ['Mountain Retreat', 'mountainretreat', 'Tranquil retreat in the mountains.', '100 Summit Rd', '555-666-7777', 'info@mountainretreat.com', 4],
+        ['Cityscape Suites', 'cityscapesuites', 'Modern suites with city views.', '25 City Blvd', '333-444-5555', 'hello@cityscapesuites.com', 5],
+        ['Lakeside Inn', 'lakesideinn', 'Cozy inn by the lake.', '80 Lakeshore Dr', '888-999-0000', 'contact@lakesideinn.com', 6],
+        ['Royal Palace Hotel', 'royalpalacehotel', 'Elegant hotel with royal accommodations.', '150 Palace Rd', '777-888-9999', 'info@royalpalacehotel.com', 7],
+        ['Sunny Beach Hotel', 'sunnybeachhotel', 'A sunny beachside hotel perfect for vacations.', '200 Beach Blvd', '666-777-8888', 'info@sunnybeachhotel.com', 8],
+        ['The Skylight Hotel', 'skylighthotel', 'High-rise hotel with panoramic views.', '300 Sky Tower Rd', '444-555-6666', 'contact@skylighthotel.com', 9],
+        ['Forest Retreat Hotel', 'forestretreathotel', 'A peaceful hotel surrounded by nature.', '500 Forest Rd', '123-456-7890', 'hello@forestretreathotel.com', 10]
     ];
 
     for (const hotel of hotelsData) {
@@ -114,23 +133,52 @@ async function insertHotels() {
     }
 }
 
+
 async function insertRooms() {
     const insertQuery = `INSERT INTO rooms (name, description, price, available_flag, hotel_id) VALUES (?, ?, ?, ?, ?)`;
 
     const roomsData = [
-        ['Room 101', 'Standard Room', 150.00, 1, 1],
-        ['Room 102', 'Deluxe Room', 250.00, 1, 1],
-        ['Room 201', 'Suite', 400.00, 1, 2]
+        // Hotel 1: Oceanview Resort
+        ['Room 101', 'Standard Room with Sea View', 150.00, 1, 1],
+        ['Room 102', 'Deluxe Room with Private Balcony', 250.00, 1, 1],
+        ['Room 103', 'Oceanfront Suite with Jacuzzi', 500.00, 1, 1],
+        ['Room 104', 'Budget Room with City View', 90.00, 1, 1],
+    
+        // Hotel 2: Mountain Retreat
+        ['Room 101', 'Luxury Mountain View Suite', 400.00, 1, 2],
+        ['Room 102', 'Rustic Cabin with Fireplace', 350.00, 1, 2],
+        ['Room 103', 'Hiking Lodge Room', 200.00, 1, 2],
+        ['Room 104', 'Family Room with Forest View', 300.00, 1, 2],
+    
+        // Hotel 3: Urban Chic Hotel
+        ['Room 101', 'Single Room with Cityscape', 120.00, 1, 3],
+        ['Room 102', 'Double Room with Modern Decor', 180.00, 1, 3],
+        ['Room 103', 'Penthouse Suite with Skyline View', 1000.00, 1, 3],
+        ['Room 104', 'Executive Suite with Lounge Access', 700.00, 1, 3],
+    
+        // Hotel 4: Lakeside Inn
+        ['Room 101', 'Cozy Lakeside Room', 150.00, 1, 4],
+        ['Room 102', 'Lakeview Suite with Balcony', 300.00, 1, 4],
+        ['Room 103', 'Romantic Room with Fireplace', 250.00, 1, 4],
+        ['Room 104', 'Family Suite by the Lake', 450.00, 1, 4],
+    
+        // Hotel 5: Royal Palace Hotel
+        ['Room 101', 'Royal Suite with Private Pool', 2000.00, 1, 5],
+        ['Room 102', 'Deluxe Suite with Royal Decor', 1500.00, 1, 5],
+        ['Room 103', 'VIP Room with Exclusive Amenities', 1200.00, 1, 5],
+        ['Room 104', 'Garden Suite with Private Terrace', 800.00, 1, 5],
     ];
-
+    
     for (const room of roomsData) {
         try {
-            await checkAndInsert(insertQuery, room, 'rooms', 'name');
+            await checkAndInsert(insertQuery, room, null);
         } catch (error) {
             console.error(error);
         }
     }
 }
+
+
 
 async function insertInvoices() {
     const insertQuery = `INSERT INTO invoices (detail, customer_email, customer_phone, check_in_date, check_out_date, pay_amount, full_payment, transaction_id, room_id) 
