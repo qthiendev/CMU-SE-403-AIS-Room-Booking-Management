@@ -61,18 +61,136 @@ const Home = () => {
       ) : (
         <div>
           {isLoggedIn ? (
-            <div>
-              <h2>Hello, User! You are logged in.</h2>
-              <button onClick={handleLogout}>Logout</button>
-            </div>
+            <>
+            <div className="divAuthen">
+                 <h2>Hello, User! You are logged in.</h2>
+                 <button onClick={handleLogout}>Logout</button>
+             </div>
+              <section id="home-info" className="bg-dark">
+                <div className="info-img"></div>
+                <div className="info-content">
+                  <h2>
+                    <span className="text-primary">The History</span> of Our
+                    Hotel
+                  </h2>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Ab, cum atque consequatur eveniet ea facere ad maiores
+                    accusantium, dignissimos minima ipsam quasi vitae molestiae
+                    impedit a, eaque repellendus vero dolorem et soluta
+                    repudiandae! Accusantium et consequatur, quia consectetur
+                    sapiente illum.
+                  </p>
+                  <a href="About.html" className="btn btn-light">
+                    Read More
+                  </a>
+                </div>
+              </section>
+              <section id="features">
+                <div className="box bg-light">
+                  <i className="fas fa-hotel fa-3x"></i>
+                  <h3>Great Location</h3>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Nisi, earum.
+                  </p>
+                </div>
+                <div className="box bg-primary">
+                  <i className="fas fa-utensils fa-3x"></i>
+                  <h3>Free Meals</h3>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Nisi, earum.
+                  </p>
+                </div>
+                <div className="box bg-light">
+                  <i className="fas fa-dumbbell fa-3x"></i>
+                  <h3>Fitness Room</h3>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Nisi, earum.
+                  </p>
+                </div>
+              </section>
+              <div className="clr"></div>
+              <footer id="main-footer">
+                Hotel AR &copy; 2020, All Rights Reserved
+              </footer>
+            </>
           ) : (
-            <div>
+            <>
+            <div className="divAuthen">
               <p>{errorMessage || "You are not logged in."}</p>
-              <div className="button-group">
-                <button onClick={handleLoginClick}>Login</button>
-                <button onClick={handleRegisterClick}>Register</button>
-              </div>
+              <button onClick={handleLoginClick}>Login</button>
             </div>
+              <div id="showcase">
+                <div className="container">
+                  <div className="showcase-content">
+                    <h1>
+                      <span className="text-primary">Enjoy</span>
+                      Your Stay
+                    </h1>
+                    <p className="lead">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                      Repudiandae quas iure recusandae commodi cum veritatis.
+                    </p>
+                    <a className="btn" href="About.html">
+                      About Our Hotel
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <section id="home-info" className="bg-dark">
+                <div className="info-img"></div>
+                <div className="info-content">
+                  <h2>
+                    <span className="text-primary">The History</span> of Our
+                    Hotel
+                  </h2>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Ab, cum atque consequatur eveniet ea facere ad maiores
+                    accusantium, dignissimos minima ipsam quasi vitae molestiae
+                    impedit a, eaque repellendus vero dolorem et soluta
+                    repudiandae! Accusantium et consequatur, quia consectetur
+                    sapiente illum.
+                  </p>
+                  <a href="About.html" className="btn btn-light">
+                    Read More
+                  </a>
+                </div>
+              </section>
+              <section id="features">
+                <div className="box bg-light">
+                  <i className="fas fa-hotel fa-3x"></i>
+                  <h3>Great Location</h3>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Nisi, earum.
+                  </p>
+                </div>
+                <div className="box bg-primary">
+                  <i className="fas fa-utensils fa-3x"></i>
+                  <h3>Free Meals</h3>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Nisi, earum.
+                  </p>
+                </div>
+                <div className="box bg-light">
+                  <i className="fas fa-dumbbell fa-3x"></i>
+                  <h3>Fitness Room</h3>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Nisi, earum.
+                  </p>
+                </div>
+              </section>
+              <div className="clr"></div>
+              <footer id="main-footer">
+                Hotel AR &copy; 2020, All Rights Reserved
+              </footer>
+            </>
           )}
         </div>
       )}

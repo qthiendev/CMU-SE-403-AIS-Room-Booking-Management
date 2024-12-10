@@ -12,6 +12,8 @@ import RoomInfo from './pages/room/RoomInfo.jsx';
 import SearchRoom from './pages/room/SearchRoom.jsx';
 import Booking from './pages/booking/Booking.jsx';
 import CheckBooking from './pages/booking/CheckBooking.jsx';
+import About from './pages/about/About.jsx';
+import Contact from './pages/contact/Contact.jsx';
 
 const Router = () => {
     return (
@@ -21,6 +23,8 @@ const Router = () => {
                 {/* Import page with route here */}
                 <Route path="/" element={<Home />} /> 
                 <Route path="/home" element={<Home />} /> 
+                <Route path="/about" element={<About />} /> 
+                <Route path="/contact" element={<Contact />} /> 
 
                 <Route path="/authen/login" element={<Login />} /> 
                 <Route path="/authen/register" element={<Register />} /> 
