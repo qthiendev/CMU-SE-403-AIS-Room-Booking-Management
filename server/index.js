@@ -51,45 +51,44 @@ app.use(compression()); // Add compression middleware
 
 app.use(cookieParser());
 
-    // Logging middleware
-    // app.use((req, res, next) => {
-    //     console.log(`[${now.toLocaleString()}] [PID: ${process.pid}] ${req.method} ${req.url}`);
-    //     next();
-    // });
+// Logging middleware
+// app.use((req, res, next) => {
+//     console.log(`[${now.toLocaleString()}] [PID: ${process.pid}] ${req.method} ${req.url}`);
+//     next();
+// });
 
-    // Session options
-    const sessionOptions = {
-        secret: 'NavCareerProject',
-        resave: false,
-        saveUninitialized: true,
-        cookie: {
-            httpOnly: true,
-            secure: false,
-            maxAge: 24 * 60 * 60 * 1000, // 1 day
-        },
-    };
+// Session options
+const sessionOptions = {
+    secret: 'NavCareerProject',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        secure: false,
+        maxAge: 24 * 60 * 60 * 1000, // 1 day
+    },
+};
 
-    if (useRedis) {
-        const store = new RedisStore({ client: redisClient });
-        sessionOptions.store = store;
-        console.log(`[${now.toLocaleString()}] Using Redis as session store.`);
-    } else {
-        console.log(`[${now.toLocaleString()}] Falling back to in-memory session store.`);
-    }
-
-    // Middleware for sessions and parsing
-    app.use(session(sessionOptions));
-    app.use(express.json());
-    app.use(express.urlencoded({ extended: true }));
-
-    // Middleware to set default session role
-    app.use((req, res, next) => {
-        if (!req.session.role) {
-            req.session.role = 'NAV_GUEST';
-        }
-        next();
-    });
+if (useRedis) {
+    const store = new RedisStore({ client: redisClient });
+    sessionOptions.store = store;
+    console.log(`[${now.toLocaleString()}] Using Redis as session store.`);
+} else {
+    console.log(`[${now.toLocaleString()}] Falling back to in-memory session store.`);
 }
+
+// Middleware for sessions and parsing
+app.use(session(sessionOptions));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Middleware to set default session role
+app.use((req, res, next) => {
+    if (!req.session.role) {
+        req.session.role = 'NAV_GUEST';
+    }
+    next();
+});
 
 async function startApp() {
     await connectRedis();
