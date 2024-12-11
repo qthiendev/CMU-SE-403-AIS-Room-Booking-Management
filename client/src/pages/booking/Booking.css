@@ -1,0 +1,111 @@
+/* General styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #faeee7; /* Light pinkish-beige background */
+    color: #777; /* Gray text */
+    margin: 0;
+    padding: 0;
+}
+
+/* Booking container */
+.booking-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; /* White background for the container */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Booking title */
+.booking-title {
+    text-align: center;
+    font-size: 24px;
+    color: #333; /* Darker color for the title */
+    margin-bottom: 20px;
+}
+
+/* Room information */
+.room-info {
+    margin-bottom: 30px;
+}
+
+.room-info p {
+    font-size: 16px;
+    margin: 5px 0;
+    color: #333; /* Dark text for readability */
+}
+
+/* Booking form */
+.booking-form {
+    background-color: #fec7d7; /* Soft pink background for the form */
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.form-title {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #333; /* Dark text for title */
+}
+
+/* Input containers */
+.input-container {
+    margin-bottom: 15px;
+}
+
+.input-label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    display: block;
+    color: #333; /* Dark color for labels */
+}
+
+.required {
+    color: red;
+}
+
+/* Input fields */
+.input-field {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #faeee7; /* Light beige background for inputs */
+}
+
+.input-field:focus {
+    border-color: #fec7d7; /* Pink border on focus */
+    outline: none;
+}
+
+/* Form error */
+.form-error {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Booking button */
+.booking-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #fec7d7; /* Soft pink background for the button */
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.booking-button:disabled {
+    background-color: #ccc; /* Gray background when button is disabled */
+    cursor: not-allowed;
+}
+
+.booking-button:hover:enabled {
+    background-color: #f8a7b9; /* Darker pink on hover */
+}

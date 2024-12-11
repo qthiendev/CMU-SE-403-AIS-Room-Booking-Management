@@ -1,0 +1,129 @@
+/* Container for the entire page */
+.room-info-container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: rgba(250, 238, 231, 0.9); /* Semi-transparent background */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    color: #777; /* Dark gray text */
+}
+
+/* Room Info Content */
+.room-info-content {
+    display: flex; /* Make sure content is aligned in a row */
+    justify-content: space-between; /* Spread out the child elements */
+    align-items: flex-start; /* Align items at the top */
+}
+
+/* Room details */
+.room-details {
+    flex: 1; /* Make room-details take up remaining space */
+    margin-right: 20px; /* Add space between the room details and image */
+}
+
+/* Image Styling for the hotel */
+.hotel-image {
+    flex: 0 0 40%; /* Image takes up about 40% of the container's width */
+    max-width: 400px; /* Maximum width to ensure it's not too large */
+    margin-left: 20px;
+}
+
+.hotel-img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading Styles */
+.room-info-container h2 {
+    font-size: 2.2em;
+    color: #fec7d7; /* Pink color for headings */
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2); /* Adds depth to text */
+}
+
+.room-info-container h3 {
+    font-size: 1.7em;
+    color: #fec7d7; /* Pink color for subheadings */
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Room and Hotel Information - Style for paragraphs */
+.room-info-container p {
+    font-size: 1.1em;
+    color: #777; /* Dark gray text */
+    margin: 12px 0;
+    line-height: 1.6;
+}
+
+.room-info-container strong {
+    color: #777; /* Same dark gray for bold text */
+}
+
+/* Book Now Button */
+.book-now-button {
+    padding: 12px 24px;
+    background-color: #fec7d7; /* Soft pink background */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 100%;
+    max-width: 220px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 10px rgba(254, 199, 215, 0.4); /* Light pink shadow */
+    text-align: center;
+    margin-top: 30px;
+}
+
+.book-now-button:hover {
+    background-color: #fa8fb3; /* Slightly darker pink on hover */
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(250, 143, 179, 0.5); /* More intense shadow on hover */
+}
+
+/* Responsive Design: Adjust layout for smaller screens */
+@media (max-width: 768px) {
+    .room-info-container {
+        padding: 20px;
+    }
+
+    .room-info-content {
+        flex-direction: column; /* Stack the content and image vertically */
+        align-items: center; /* Center align items in column layout */
+    }
+
+    .room-info-container h2 {
+        font-size: 1.8em;
+    }
+
+    .room-info-container h3 {
+        font-size: 1.4em;
+    }
+
+    .room-info-container p {
+        font-size: 1em;
+    }
+
+    .book-now-button {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+    .hotel-image {
+        margin-left: 0; /* Remove left margin for smaller screens */
+        margin-top: 20px; /* Add top margin for better spacing */
+        max-width: 100%; /* Ensure image is responsive */
+    }
+}

@@ -1,0 +1,134 @@
+/* Thanh toán thành công - Icon */
+.payment-success {
+    text-align: center;
+    font-size: 3rem;
+    color: #660144; 
+    margin: 20px 0;
+    display: none; /* Ban đầu ẩn icon */
+    animation: fadeIn 1s ease-out forwards; /* Hiển thị icon mượt mà */
+}
+
+/* Hiệu ứng khi hiển thị icon */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Booking Details Container */
+.booking-details {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #faeee7; /* Fallback color similar to your theme */
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(50px); /* Start position for animation */
+    opacity: 0;
+    animation: fadeInUp 1s ease-out forwards; /* Apply fadeInUp animation */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transition effects */
+}
+
+/* Title */
+.title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #fec7d7; /* Soft pink for title */
+    animation: fadeIn 1s ease-out forwards;
+}
+
+/* Text Inside Booking Details */
+.booking-details p {
+    font-size: 1rem;
+    margin: 10px 0;
+    color: #777; /* Dark gray text */
+    animation: fadeIn 1s ease-out forwards;
+}
+
+/* Strong Text (Highlighting Important Info) */
+.booking-details strong {
+    color: #eec303; /* Green color for strong text */
+}
+
+/* Loading Message */
+.loading {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #ff9800;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+/* Error Message */
+.error {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #f44336;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+/* Hotel Info Section */
+.hotel-info {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid #ddd;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+/* Hotel Info Paragraph */
+.hotel-info p {
+    font-size: 0.95rem;
+    color: #555;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hover Effect on Details */
+.booking-details:hover {
+    transform: translateY(-5px); /* Slightly lift the container */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+}
+
+/* Responsive Design for Small Screens */
+@media (max-width: 768px) {
+    .booking-details {
+        padding: 15px;
+        max-width: 100%;
+    }
+
+    .title {
+        font-size: 1.6rem;
+    }
+
+    .booking-details p {
+        font-size: 0.9rem;
+    }
+
+    .hotel-info p {
+        font-size: 0.85rem;
+    }
+}
