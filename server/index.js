@@ -14,7 +14,9 @@ const compression = require('compression');
 const cluster = require('cluster');
 const os = require('os');
 const now = new Date();
+const { createPool } = require('generic-pool');
 
+dotenv.config();
 const app = express();
 const PORT = 5000;
 const numCores = os.cpus().length;
@@ -25,6 +27,44 @@ const corsOptions = {
     origin: 'http://localhost:5173',
     credentials: true,
 };
+
+const redisClient = redis.createClient({
+    url: 'redis://127.0.0.1:6379',
+    socket: {
+        reconnectStrategy: (retries) => {
+            console.error(`[${now.toLocaleString()}] Redis connection attempt ${retries}`);
+            return retries > 3 ? new Error('Retry limit reached') : 1000; // Retry 3 times
+        },
+    },
+});
+
+async function connectRedis() {
+    try {
+        await redisClient.connect();
+        monitorRedis(); // Start monitoring Redis events
+    } catch (err) {
+        console.error(`[${now.toLocaleString()}] Failed to connect to Redis:`, err.message);
+        useRedis = false;
+    }
+}
+
+// Create Redis connection pool
+const redisPool = createPool(
+    {
+        create: async () => {
+            const client = redis.createClient({ url: 'redis://127.0.0.1:6379' });
+            await client.connect();
+            return client;
+        },
+        destroy: (client) => client.quit(),
+    },
+    {
+        max: 20, // Maximum number of clients in the pool
+        min: 5,  // Minimum number of clients in the pool
+        idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
+        acquireTimeoutMillis: 10000, // Timeout for acquiring a client
+    }
+);
 
 const helmetOptions = {
     contentSecurityPolicy: {
@@ -41,54 +81,81 @@ const limiter = rateLimit({
     message: 'Too many requests from this IP, please try again after 15 minutes'
 });
 
-app.use(limiter); // Apply rate limiting to all requests
+function monitorRedis() {
+    redisClient.on('error', (err) => {
+        console.error(`[${now.toLocaleString()}] Redis error:`, err.message);
+        handleCriticalFailure();
+    });
 
-app.use(helmet(helmetOptions));
-app.use(cors(corsOptions));
-app.use(xss()); // Add xss-clean middleware
-app.use(hpp()); // Add hpp middleware
-app.use(compression()); // Add compression middleware
-
-app.use(cookieParser());
-
-// Logging middleware
-// app.use((req, res, next) => {
-//     console.log(`[${now.toLocaleString()}] [PID: ${process.pid}] ${req.method} ${req.url}`);
-//     next();
-// });
-
-// Session options
-const sessionOptions = {
-    secret: 'NavCareerProject',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        httpOnly: true,
-        secure: false,
-        maxAge: 24 * 60 * 60 * 1000, // 1 day
-    },
-};
-
-if (useRedis) {
-    const store = new RedisStore({ client: redisClient });
-    sessionOptions.store = store;
-    console.log(`[${now.toLocaleString()}] Using Redis as session store.`);
-} else {
-    console.log(`[${now.toLocaleString()}] Falling back to in-memory session store.`);
+    redisClient.on('end', () => {
+        console.error(`[${now.toLocaleString()}] Redis connection lost.`);
+        handleCriticalFailure();
+    });
 }
 
-// Middleware for sessions and parsing
-app.use(session(sessionOptions));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+function handleCriticalFailure() {
+    console.error(`[${now.toLocaleString()}] Critical error detected. Restarting server...`);
+    process.exit(1); // Exit the process to trigger a restart
+}
 
-// Middleware to set default session role
-app.use((req, res, next) => {
-    if (!req.session.role) {
-        req.session.role = 'NAV_GUEST';
+async function acquireRedisClient(req, res, next) {
+    try {
+        req.redisClient = await redisPool.acquire();
+        next();
+    } catch (err) {
+        console.error(`[${now.toLocaleString()}] Failed to acquire Redis client:`, err.message);
+        req.redisClient = null;
+        next();
+    }
+}
+
+async function releaseRedisClient(req, res, next) {
+    if (req.redisClient) {
+        await redisPool.release(req.redisClient);
+        req.redisClient = null;
     }
     next();
-});
+}
+
+function setupMiddleware(app) {
+    app.use(limiter); // Apply rate limiting to all requests
+
+    app.use(helmet(helmetOptions));
+    app.use(cors(corsOptions));
+    app.use(xss()); // Add xss-clean middleware
+    app.use(hpp()); // Add hpp middleware
+    app.use(compression()); // Add compression middleware
+
+    app.use(cookieParser());
+
+    // Session options
+    const sessionOptions = {
+        secret: 'Secret',
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+            httpOnly: true,
+            secure: false,
+            maxAge: 24 * 60 * 60 * 1000, // 1 day
+        },
+    };
+
+    if (useRedis) {
+        const store = new RedisStore({ client: redisClient });
+        sessionOptions.store = store;
+    } else {
+        console.log(`[${now.toLocaleString()}] Falling back to in-memory session store.`);
+    }
+
+    // Middleware for sessions and parsing
+    app.use(session(sessionOptions));
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+
+    // Add Redis pool middleware
+    app.use(acquireRedisClient);
+    app.use(releaseRedisClient);
+}
 
 async function startApp() {
     await connectRedis();
@@ -99,7 +166,6 @@ async function startApp() {
 
         for (let i = 0; i < numCores; i++) {
             const worker = cluster.fork();
-            console.log(`Forked worker with PID: ${worker.process.pid}`);
         }
 
         cluster.on('exit', (worker, code, signal) => {
@@ -109,7 +175,7 @@ async function startApp() {
     } else {
         setupMiddleware(app);
 
-        app.use('/', require('./routes/main.route'));
+        app.use('/', mainRouter);
 
         app.listen(PORT, () => {
             console.log(`[${now.toLocaleString()}] Worker process [PID: ${process.pid}] running on http://localhost:${PORT}`);
