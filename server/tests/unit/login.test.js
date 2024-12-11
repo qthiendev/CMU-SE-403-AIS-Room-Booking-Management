@@ -26,7 +26,7 @@ async function testLoginLogout(concurrentRequests = 1000) {
     }
 
     try {
-        await Promise.all(requests); // Fire all requests simultaneously
+        await Promise.all(requests);
         const endTime = performance.now();
         const totalTime = endTime - startTime;
 

@@ -55,8 +55,6 @@ const tryGetAllRooms = async () => {
             []
         );
 
-        console.log('row', rows)
-
         return rows.length > 0 ? rows : [];
     } catch (err) {
         console.error('Error fetching all rooms:', err);

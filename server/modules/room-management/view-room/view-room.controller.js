@@ -34,6 +34,7 @@ const searchRooms = async (req, res) => {
     try {
         const rooms = await trySearchRoom(index);
         if (rooms && rooms.length > 0) {
+            //console.log(`Room search with: ${index}`);
             res.status(200).json({ success: true, rooms });
         } else {
             res.status(404).json({ success: false, message: 'No rooms found matching search criteria' });
