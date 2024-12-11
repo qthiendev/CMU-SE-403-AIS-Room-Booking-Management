@@ -36,6 +36,10 @@ const Home = () => {
     navigate("/authen/login");
   };
 
+  const handleRegisterClick = () => {
+    navigate("/authen/register");
+  };
+
   const handleLogout = async () => {
     try {
       await axios.post(

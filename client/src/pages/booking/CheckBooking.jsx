@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import './CheckBooking.css';  // Import the CSS file
+import './CheckBooking.css';
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
 const CheckBooking = () => {
     const { transaction_id } = useParams();
     const [bookingDetails, setBookingDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [paymentSuccess, setPaymentSuccess] = useState(false); // Thêm state để theo dõi thanh toán thành công
 
     useEffect(() => {
         const fetchBookingDetails = async () => {
@@ -21,6 +23,10 @@ const CheckBooking = () => {
                 );
                 if (response.data.success) {
                     setBookingDetails(response.data);
+                    // Kiểm tra trạng thái thanh toán, nếu hoàn tất, hiển thị thông báo
+                    if (response.data.full_payment) {
+                        setPaymentSuccess(true); // Cập nhật trạng thái thanh toán thành công
+                    }
                 } else {
                     setError('Booking not found');
                 }
@@ -66,6 +72,13 @@ const CheckBooking = () => {
 
     return (
         <div className="booking-details">
+            {/* Hiển thị icon thanh toán thành công nếu paymentSuccess là true */}
+            {paymentSuccess && (
+                <div className="payment-success">
+                    <i className="fas fa-check-circle"></i> {/* Icon thanh toán thành công */}
+                    <p>Payment Successful!</p>
+                </div>
+            )}
             <h2 className="title">Booking Details</h2>
             <p><strong>Transaction ID:</strong> {transaction_id}</p>
             <p><strong>Booking Detail:</strong> {detail || `Booking for room ${room_name} of ${hotel_name}`}</p>

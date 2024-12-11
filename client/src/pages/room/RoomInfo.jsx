@@ -56,23 +56,34 @@ const RoomInfo = () => {
 
     return (
         <div className="room-info-container">
-            <h2>{room.name}</h2>
-            <p><strong>Description:</strong> {room.description}</p>
-            <p><strong>Price:</strong> ${room.price}</p>
-            <p><strong>Availability:</strong> {room.available_flag ? 'Available' : 'Not Available'}</p>
+            <div className="room-info-content">
+                <div className="room-details">
+                    <h2>{room.name}</h2>
+                    <p><strong>Description:</strong> {room.description}</p>
+                    <p><strong>Price:</strong> ${room.price}</p>
+                    <p><strong>Availability:</strong> {room.available_flag ? 'Available' : 'Not Available'}</p>
 
-            <h3>Hotel Information:</h3>
-            <p><strong>Hotel Name:</strong> {room.hotel_name}</p>
-            <p><strong>Hotel Alias:</strong> {room.hotel_alias}</p>
-            <p><strong>Description:</strong> {room.hotel_description}</p>
-            <p><strong>Address:</strong> {room.hotel_address}</p>
-            <p><strong>Phone:</strong> {room.hotel_phone}</p>
-            <p><strong>Email:</strong> <a href={`mailto:${room.hotel_email}`}>{room.hotel_email}</a></p>
+                    <h3>Hotel Information:</h3>
+                    <p><strong>Hotel Name:</strong> {room.hotel_name}</p>
+                    <p><strong>Hotel Alias:</strong> {room.hotel_alias}</p>
+                    <p><strong>Description:</strong> {room.hotel_description}</p>
+                    <p><strong>Address:</strong> {room.hotel_address}</p>
+                    <p><strong>Phone:</strong> {room.hotel_phone}</p>
+                    <p><strong>Email:</strong> <a href={`mailto:${room.hotel_email}`}>{room.hotel_email}</a></p>
 
-            {/* Book Now Button */}
-            <button className="book-now-button" onClick={handleBookNow}>
-                Book Now
-            </button>
+                    {/* Book Now Button */}
+                    <button className="book-now-button" onClick={handleBookNow}>
+                        Book Now
+                    </button>
+                </div>
+                <div className="hotel-image">
+                    <img 
+                        src="https://i.pinimg.com/736x/7a/a1/94/7aa19415266b8ad0ad570b7d2ecc3e8e.jpg" 
+                        alt="Hotel" 
+                        className="hotel-img"
+                    />
+                </div>
+            </div>
         </div>
     );
 };

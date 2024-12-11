@@ -66,16 +66,17 @@ function Layout() {
               </nav>
             </header>
 
-            <main>
-                <Outlet />
-                {/* All pages contain in ./pages will be render inside here */}
-            </main>
+      <main>
+        <Outlet />
+        {/* All pages contain in ./pages will be render inside here */}
+      </main>
 
-            <footer>
-                {/* Footer */}
-            </footer>
-        </div>
-    );
+      <footer>
+        {/* Footer */}
+        <i> @2024 - CMU-SE-403AIS - Room Booking Management System </i>
+      </footer>
+    </div>
+  );
 }
 
 export default Layout;
