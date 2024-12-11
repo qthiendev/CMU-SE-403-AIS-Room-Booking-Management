@@ -4,6 +4,13 @@ const session = require('express-session');
 const { RedisStore } = require('connect-redis');
 const redis = require('redis');
 const cors = require('cors');
+const dotenv = require('dotenv');
+const helmet = require('helmet');
+const mainRouter = require('./routes/main.route');
+const xss = require('xss-clean');
+const rateLimit = require('express-rate-limit');
+const hpp = require('hpp');
+const compression = require('compression');
 const cluster = require('cluster');
 const os = require('os');
 const now = new Date();
@@ -19,48 +26,30 @@ const corsOptions = {
     credentials: true,
 };
 
-const redisClient = redis.createClient({
-    url: 'redis://127.0.0.1:6379',
-    socket: {
-        reconnectStrategy: (retries) => {
-            console.error(`[${now.toLocaleString()}] Redis connection attempt ${retries}`);
-            return retries > 3 ? new Error('Retry limit reached') : 1000; // Retry 3 times
+const helmetOptions = {
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "http://localhost:5173"],
         },
     },
+};
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+    message: 'Too many requests from this IP, please try again after 15 minutes'
 });
 
-async function connectRedis() {
-    try {
-        await redisClient.connect();
-        console.log(`[${now.toLocaleString()}] Connected to Redis successfully.`);
-        monitorRedis(); // Start monitoring Redis events
-    } catch (err) {
-        console.error(`[${now.toLocaleString()}] Failed to connect to Redis:`, err.message);
-        useRedis = false;
-    }
-}
+app.use(limiter); // Apply rate limiting to all requests
 
-function monitorRedis() {
-    redisClient.on('error', (err) => {
-        console.error(`[${now.toLocaleString()}] Redis error:`, err.message);
-        handleCriticalFailure();
-    });
+app.use(helmet(helmetOptions));
+app.use(cors(corsOptions));
+app.use(xss()); // Add xss-clean middleware
+app.use(hpp()); // Add hpp middleware
+app.use(compression()); // Add compression middleware
 
-    redisClient.on('end', () => {
-        console.error(`[${now.toLocaleString()}] Redis connection lost.`);
-        handleCriticalFailure();
-    });
-}
-
-function handleCriticalFailure() {
-    console.error(`[${now.toLocaleString()}] Critical error detected. Restarting server...`);
-    process.exit(1); // Exit the process to trigger a restart
-}
-
-function setupMiddleware(app) {
-    // CORS middleware
-    app.use(cors(corsOptions));
-    app.use(cookieParser());
+app.use(cookieParser());
 
     // Logging middleware
     // app.use((req, res, next) => {
